@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szd.z001.base.orm.mapper.z001.Z001HeaderMapper">
+    <resultMap type="com.szd.z001.base.orm.domain.z001.Z001Header" id="headerResult">
+        <result property="adjustId" column="adjust_id"/>
+        <result property="cstcCreate" column="cstc_create"/>
+        <result property="cmpyCreate" column="cmpy_create"/>
+        <result property="userId" column="user_id"/>
+        <result property="supp" column="supp"/>
+        <result property="cust" column="cust"/>
+        <result property="cstcExp" column="cstc_exp"/>
+        <result property="cmpyExp" column="cmpy_exp"/>
+        <result property="cstcBuss" column="cstc_buss"/>
+        <result property="cmpyBuss" column="cmpy_buss"/>
+        <result property="bstp" column="bstp"/>
+        <result property="routerCode" column="router_code"/>
+        <result property="attNum" column="att_num"/>
+        <result property="curr" column="curr"/>
+        <result property="exchangeRate" column="exchange_rate"/>
+        <result property="bussDate" column="buss_date"/>
+        <result property="remark" column="remark"/>
+        <result property="bankSummary" column="bank_summary"/>
+        <result property="userNum" column="user_num"/>
+        <result property="status" column="status"/>
+        <result property="sapStatusDesc" column="sap_status_desc"/>
+        <result property="paymentType" column="payment_type"/>
+        <result property="amtBillApply" column="amt_bill_apply"/>
+        <result property="amtBillActual" column="amt_bill_actual"/>
+    </resultMap>
+
+    <sql id="selectSql">
+        select h.*
+        from z001_header h
+    </sql>
+
+    <select id="selectList" parameterType="com.szd.z001.base.orm.domain.z001.Z001RpParamVO" resultMap="headerResult">
+        <include refid="selectSql"/>
+        <where>
+            h.router_code = #{routerCode}
+            AND @S@ h.cmpy_exp = cmpyExp @E@
+            AND @S@ h.cstc_exp = cstcExp @E@
+            AND @S@ h.user_id = userId @E@
+            AND @S@ h.buss_date = bussDateTR @E@
+            AND @S@ h.bstp = wfBstp @E@
+            AND @S@ h.status = status @E@
+            AND @S@ h.wf_create_time = wfCreateTime @E@
+            AND @S@ h.buss_doc_id = bussDocId @E@
+            <if test="userId != null and  userId != ''">and h.user_id = #{userId}</if>
+            <if test="wfTitle != null and  wfTitle != ''">and h.wf_title like concat('%', #{wfTitle}, '%')</if>
+            <if test="supp != null and  supp != ''">and h.supp like concat('%', #{supp}, '%')</if>
+            <if test="cust != null and  cust != ''">and h.cust like concat('%', #{cust}, '%')</if>
+        </where>
+        order by h.buss_date desc, h.wf_create_time desc
+    </select>
+
+    <select id="selectById" parameterType="String" resultMap="headerResult">
+        <include refid="selectSql"/>
+        where h.adjust_id = #{adjustId}
+    </select>
+
+    <insert id="insert" parameterType="com.szd.z001.base.orm.domain.z001.Z001Header">
+        insert into z001_header
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adjustId != null and adjustId != ''">adjust_id,</if>
+            <if test="cstcCreate != null and cstcCreate != ''">cstc_create,</if>
+            <if test="cmpyCreate != null and cmpyCreate != ''">cmpy_create,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="supp != null and supp != ''">supp,</if>
+            <if test="cust != null and cust != ''">cust,</if>
+            <if test="cstcExp != null and cstcExp != ''">cstc_exp,</if>
+            <if test="cmpyExp != null and cmpyExp != ''">cmpy_exp,</if>
+            <if test="cstcBuss != null and cstcBuss != ''">cstc_buss,</if>
+            <if test="cmpyBuss != null and cmpyBuss != ''">cmpy_buss,</if>
+            <if test="bstp != null and bstp != ''">bstp,</if>
+            <if test="attNum != null and attNum != ''">att_num,</if>
+            <if test="curr != null and curr != ''">curr,</if>
+            <if test="exchangeRate != null and exchangeRate != ''">exchange_rate,</if>
+            <if test="bussDate != null">buss_date,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="bankSummary != null and bankSummary != ''">bank_summary,</if>
+            <if test="userNum != null and userNum != ''">user_num,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="sapStatusDesc != null and sapStatusDesc != ''">sap_status_desc,</if>
+            <if test="paymentType != null and paymentType != ''">payment_type,</if>
+            <if test="amtBillApply != null and amtBillApply != ''">amt_bill_apply,</if>
+            <if test="amtBillActual != null and amtBillActual != ''">amt_bill_actual,</if>
+            <if test="bussDocId != null and bussDocId != ''">buss_doc_id,</if>
+            <if test="wfTitle != null and wfTitle != ''">wf_title,</if>
+            <if test="routerCode != null and routerCode != ''">router_code,</if>
+            wf_create_by,wf_create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adjustId != null and adjustId != ''">#{adjustId},</if>
+            <if test="cstcCreate != null and cstcCreate != ''">#{cstcCreate},</if>
+            <if test="cmpyCreate != null and cmpyCreate != ''">#{cmpyCreate},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="supp != null and supp != ''">#{supp},</if>
+            <if test="cust != null and cust != ''">#{cust},</if>
+            <if test="cstcExp != null and cstcExp != ''">#{cstcExp},</if>
+            <if test="cmpyExp != null and cmpyExp != ''">#{cmpyExp},</if>
+            <if test="cstcBuss != null and cstcBuss != ''">#{cstcBuss},</if>
+            <if test="cmpyBuss != null and cmpyBuss != ''">#{cmpyBuss},</if>
+            <if test="bstp != null and bstp != ''">#{bstp},</if>
+            <if test="attNum != null and attNum != ''">#{attNum},</if>
+            <if test="curr != null and curr != ''">#{curr},</if>
+            <if test="exchangeRate != null and exchangeRate != ''">#{exchangeRate},</if>
+            <if test="bussDate != null">#{bussDate},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="bankSummary != null and bankSummary != ''">#{bankSummary},</if>
+            <if test="userNum != null and userNum != ''">#{userNum},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="sapStatusDesc != null and sapStatusDesc != ''">#{sapStatusDesc},</if>
+            <if test="paymentType != null and paymentType != ''">#{paymentType},</if>
+            <if test="amtBillApply != null and amtBillApply != ''">#{amtBillApply},</if>
+            <if test="amtBillActual != null and amtBillActual != ''">#{amtBillActual},</if>
+            <if test="bussDocId != null and bussDocId != ''">#{bussDocId},</if>
+            <if test="wfTitle != null and wfTitle != ''">#{wfTitle},</if>
+            <if test="routerCode != null and routerCode != ''">#{routerCode},</if>
+            #{wfCreateBy}, sysdate(),
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.szd.z001.base.orm.domain.z001.Z001Header">
+        update z001_header
+        set
+            cstc_create = #{cstcCreate},
+            cmpy_create = #{cmpyCreate},
+            user_id = #{userId},
+            supp = #{supp},
+            cust = #{cust},
+            cstc_exp = #{cstcExp},
+            cmpy_exp = #{cmpyExp},
+            cstc_buss = #{cstcBuss},
+            cmpy_buss = #{cmpyBuss},
+            bstp = #{bstp},
+            att_num = #{attNum},
+            curr = #{curr},
+            exchange_rate = #{exchangeRate},
+            buss_date = #{bussDate},
+            remark = #{remark},
+            bank_summary = #{bankSummary},
+            user_num = #{userNum},
+            status = #{status},
+            sap_status_desc = #{sapStatusDesc},
+            payment_type = #{paymentType},
+            amt_bill_apply = #{amtBillApply},
+            amt_bill_actual = #{amtBillActual},
+            buss_doc_id = #{bussDocId},
+            wf_title = #{wfTitle}
+        where adjust_id = #{adjustId}
+    </update>
+
+    <update id="updateStatusAndId">
+        update z001_header
+        set status = #{status}
+        <if test="bussDocId != null and bussDocId != ''" >, buss_doc_id = #{bussDocId}</if>
+        where adjust_id = #{bussId}
+    </update>
+    <update id="updateStatusByBussId">
+        update z001_header
+        set status = #{status}
+        where buss_doc_id = #{bussDocId}
+    </update>
+    <delete id="deleteById" parameterType="String">
+        delete from z001_header where adjust_id = #{adjustId}
+    </delete>
+
+</mapper>

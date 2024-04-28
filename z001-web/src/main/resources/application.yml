@@ -1,0 +1,42 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口
+  port: 9099
+# Spring配置
+spring:
+  application:
+    name: Z001
+  profiles:
+    active: dev
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size:  10MB
+      # 设置总上传的文件大小
+      max-request-size:  20MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.szd.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mybatis/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis-config.xml
+# CORE相关配置
+core:
+  devMode: false
+  threadPool:
+    poolSize: 8
+  app:
+    appId: APP_DEMO
+    appSecret: APP_DEMO2023
+    # 调用前置替换token A不处理(默认) B配置的使用账号密码  C通过core的统一身份认证                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  C
+    authMode: B
+logging:
+  level:
+    root: INFO

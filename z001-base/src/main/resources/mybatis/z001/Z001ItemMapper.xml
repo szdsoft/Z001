@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szd.z001.base.orm.mapper.z001.Z001ItemMapper">
+
+    <resultMap type="com.szd.z001.base.orm.domain.z001.Z001Item" id="CostAccAdjustResult">
+        <result property="costId" column="cost_id"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="taxr" column="taxr"/>
+        <result property="debitCreditFlag" column="debit_credit_flag"/>
+        <result property="amt" column="amt"/>
+        <result property="summary" column="summary"/>
+        <result property="supp" column="supp"/>
+        <result property="cust" column="cust"/>
+        <result property="cstc" column="cstc"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="prfc" column="prfc"/>
+        <result property="tradePartnerCode" column="trade_partner_code"/>
+        <result property="busc" column="busc"/>
+        <result property="segmentCode" column="segment_code"/>
+        <result property="funcAreaCode" column="func_area_code"/>
+        <result property="accs" column="accs"/>
+        <result property="accSubjectFlag" column="acc_subject_flag"/>
+        <result property="reas" column="reas"/>
+        <result property="purchaseDoc" column="purchase_doc"/>
+        <result property="purchaseDocItem" column="purchase_doc_item"/>
+        <result property="assetCode" column="asset_code"/>
+        <result property="assetCodeNo" column="asset_code_no"/>
+        <result property="payTerm" column="pay_term"/>
+        <result property="baseDate" column="base_date"/>
+        <result property="days" column="days"/>
+        <result property="reverseFlag" column="reverse_flag"/>
+        <result property="assignNo" column="assign_no"/>
+        <result property="reference01" column="reference01"/>
+        <result property="reference02" column="reference02"/>
+        <result property="reference03" column="reference03"/>
+    </resultMap>
+
+    <sql id="selectExpCostAccAdjust">
+        select * from z001_item
+    </sql>
+
+    <select id="selectList" parameterType="string" resultMap="CostAccAdjustResult">
+        <include refid="selectExpCostAccAdjust"/>
+        where cost_id = #{costId}
+        order by item_no
+    </select>
+
+    <select id="selectById" parameterType="String" resultMap="CostAccAdjustResult">
+        <include refid="selectExpCostAccAdjust"/>
+        where cost_id = #{costId} and item_no = #{itemNo}
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into z001_item
+        (cost_id, item_no, taxr, debit_credit_flag, amt, summary, supp, cust, cstc,
+        order_code, prfc, trade_partner_code, busc, segment_code, func_area_code,
+        accs, acc_subject_flag, reas, purchase_doc, purchase_doc_item, asset_code, asset_code_no,
+        pay_term, base_date, days, reverse_flag, assign_no, reference01, reference02, reference03
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.costId},
+                #{item.itemNo},
+                #{item.taxr},
+                #{item.debitCreditFlag},
+                #{item.amt},
+                #{item.summary},
+                #{item.supp},
+                #{item.cust},
+                #{item.cstc},
+                #{item.orderCode},
+                #{item.prfc},
+                #{item.tradePartnerCode},
+                #{item.busc},
+                #{item.segmentCode},
+                #{item.funcAreaCode},
+                #{item.accs},
+                #{item.accSubjectFlag},
+                #{item.reas},
+                #{item.purchaseDoc},
+                #{item.purchaseDocItem},
+                #{item.assetCode},
+                #{item.assetCodeNo},
+                #{item.payTerm},
+                #{item.baseDate},
+                #{item.days},
+                #{item.reverseFlag},
+                #{item.assignNo},
+                #{item.reference01},
+                #{item.reference02},
+                #{item.reference03}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByCostId" parameterType="String">
+        delete from z001_item where cost_id = #{costId}
+    </delete>
+
+</mapper>
